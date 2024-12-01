@@ -57,6 +57,7 @@ struct Day1 {
         let list1AndList2 = getList1AndList2(day01Input)
         let list1 = list1AndList2.0.sorted()
         let list2 = list1AndList2.1.sorted()
+        print("---part2---")
         print(list1)
         print(list2)
         guard list1.count == list2.count else { return }
