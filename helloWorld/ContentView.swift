@@ -23,6 +23,10 @@ struct ContentView: View {
         let day01 = Day1()
         print(day01.day01(day01Input))
         print(day01.part2(day01Input))
+        
+        let day02 = Day2()
+        print(day02.part1(day02Input))
+        print(day02.part2(day02Input))
     }
 }
 
