@@ -118,8 +118,20 @@ struct Day2 {
                 } else {
                     if levelState == nil {
                         if previousLevel == currentLevel {
-                            if toleranceCount == 0 {
-                                toleranceCount += 1
+                            if toleranceCount == 0, index != 0 {
+                                // prev and current same
+                                // diff prev and next should be valid
+                                let nextLevel = Int(levels[index+1])!
+                                let min = min(previousLevel!, nextLevel)
+                                let max = max(previousLevel!, nextLevel)
+                                let diff = max-min
+                                let validDiff = diff < 3
+                                if validDiff {
+                                    toleranceCount += 1
+                                } else {
+                                    // unsafe
+                                    break
+                                }
                             } else {
                                 // unsafe
                                 break
@@ -130,7 +142,19 @@ struct Day2 {
                     } else {
                         if previousLevel == currentLevel {
                             if toleranceCount == 0 {
-                                toleranceCount += 1
+                                // prev and current same
+                                // diff prev and next should be valid
+                                let nextLevel = levels.count == index+1 ? currentLevel : Int(levels[index+1])!
+                                let min = min(previousLevel!, nextLevel)
+                                let max = max(previousLevel!, nextLevel)
+                                let diff = max-min
+                                let validDiff = diff < 3
+                                if validDiff {
+                                    toleranceCount += 1
+                                } else {
+                                    // break
+                                    break
+                                }
                             } else {
                                 // unsafe
                                 break
@@ -139,7 +163,23 @@ struct Day2 {
                         let currentLevelState: LevelState = previousLevel! < currentLevel ? .increasing : .decreasing
                         if currentLevelState != levelState {
                             if toleranceCount == 0 {
-                                toleranceCount += 1
+                                // prev and diff
+                                // diff prev and next should be valid
+                                // incr and decr - should also match
+                                let nextLevel = levels.count == index+1 ? currentLevel : Int(levels[index+1])!
+                                let min = min(previousLevel!, nextLevel)
+                                let max = max(previousLevel!, nextLevel)
+                                let diff = max-min
+                                let validDiff = diff < 3
+                                
+                                let nextLevelState: LevelState = nextLevel < previousLevel! ? .increasing : .decreasing
+                                
+                                if validDiff, levelState == nextLevelState {
+                                    toleranceCount += 1
+                                } else {
+                                    // break
+                                    break
+                                }
                             } else {
                                 // unsafe - incerement / decrement mismatch
                                 break
