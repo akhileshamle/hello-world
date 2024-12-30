@@ -22,12 +22,11 @@ struct Day3 {
             let regex = try NSRegularExpression(pattern: pattern)
             let matches = regex.matches(in: input, range: NSRange(input.startIndex..., in: input))
             
-            for match in matches {
-                print("Match ranges: \(match.numberOfRanges)") // Should output at least 3 ranges per match
-            }
-            
             let sumAll = matches.compactMap { mulItem -> Int in
-                let leftNumber = String(String(input)[Range(mulItem.range(at: 1), in: String(input))!]).toInt
+                let leftNumberRange = mulItem.range(at: 1)
+                let leftNumberRangeInInputString = Range(leftNumberRange, in: input)!
+                let leftNumberSubscriptFromInputString = input[leftNumberRangeInInputString]
+                let leftNumber = String(leftNumberSubscriptFromInputString).toInt
                 let rightNumber = String(String(input)[Range(mulItem.range(at: 2), in: String(input))!]).toInt
                 
                 return leftNumber! * rightNumber!
